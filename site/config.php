@@ -13,27 +13,32 @@ ini_set('display_errors', 1);
 /*
 * Define session name
 */
-$ly->config['session_name'] = preg_replace('/[:\.\/-_]/', '', $_SERVER["SERVER_NAME"]);
+$cs->config['session_name'] = preg_replace('/[:\.\/-_]/', '', $_SERVER["SERVER_NAME"]);
 
 /*
 * Define server timezone
 */
-$ly->config['timezone'] = 'Europe/Stockholm';
+$cs->config['timezone'] = 'Europe/Stockholm';
 
 /*
 * Define internal character encoding
 */
-$ly->config['character_encoding'] = 'iso-8859-1';
+$cs->config['character_encoding'] = 'iso-8859-1';
 
 /*
 * Define language
 */
-$ly->config['language'] = 'sv';
+$cs->config['language'] = 'sv';
 
 /*
 *	Define base_url to another than defualt
 */
-$ly->config['base_url'] = null;
+$cs->config['base_url'] = null;
+
+/*
+*	Define if debug should be shown below the footer
+*/
+$cs->config['debug'] = false;
 
 /**
 * Define the controllers, their classname and enable/disable them.
@@ -44,17 +49,19 @@ $ly->config['base_url'] = null;
 * $ly->FrontControllerRoute();
 * which is called in the frontcontroller phase from index.php.
 */
-$ly->config['controllers'] = array(
+$cs->config['controllers'] = array(
   'index'     => array('enabled' => true,'class' => 'CCIndex'),
   'test1'	  => array('enabled' => true,'class' => 'CCTest1'),
+  'developer' => array('enabled' => true,'class' => 'CCDeveloper'),
+  'guestbook' => array('enabled' => true,'class' => 'CCGuestBook'),
 );
 
 /*
  *	Define which theme that should be used from the themes-folder (default: theme)
  */
- $ly->config['theme']=array(
- 	'name'	=> 'theme'
- );
+$cs->config['theme']=array(
+	'name'	=> 'theme'
+);
  
 /**
 * What type of urls should be used?
@@ -63,6 +70,31 @@ $ly->config['controllers'] = array(
 * clean        = 1      => controller/method/arg1/arg2/arg3
 * querystring  = 2      => index.php?q=controller/method/arg1/arg2/arg3
 */
-$ly->config['url_type'] = 1; 
+$cs->config['url_type'] = 1; 
+
+/**
+* Set database(s).
+*
+*	type = database type
+*	url = url to database
+*	user = username
+*	pass = password
+*	db = db_zapp
+
+$cs->config['database'] = array(
+	'type'	=> 'mysql',
+	'url' 	=> 'x3e.org',
+	'user' 	=> 'zapp',
+	'pass'	=> 'brannigan',
+	'db' 	=> 'db_zapp',
+);
+*/
+
+/**
+* Set database(s).
+*/
+$cs->config['database'][0]['dsn'] = "mysql:dbname=db_zapp;host=x3e.org";
+$cs->config['database'][0]['usr'] = "zapp";
+$cs->config['database'][0]['pass'] = "brannigan";
 
 ?>

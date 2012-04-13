@@ -8,13 +8,23 @@ class CSmvc implements ISingleton {
 
    private static $instance = null;
 
-   /**
-    * Constructor
-    */
+  //==================================
+  //  Constructor, with DB-connector
+  //==================================
    protected function __construct() {
       // include the site specific config.php and create a ref to $ly to be used by config.php
-      $ly = &$this;
-      require(LYDIA_SITE_PATH.'/config.php');
+      $cs = &$this;
+      require(SMVC_SITE_PATH.'/config.php');
+    
+    
+      //==================================
+	  //  Check if config['database'] exists and contain info
+	  //  In that case, connect to that database
+	  //==================================
+      if(isset($this->config['database'][0]['dsn'])){
+      	$this->db = new CMDatabase($this->config['database'][0]['dsn'], $this->config['database'][0]['usr'], $this->config['database'][0]['pass']);
+      }
+      
    }
 	
    /**
@@ -40,7 +50,7 @@ class CSmvc implements ISingleton {
   	$controller = $this->request->controller;
   	$method		= $this->request->method;
   	$arguments	= $this->request->arguments;
-  	
+	
   	
   	// Kolla ifall contorller finns i config.php
   	$controllerExists	=isset($this->config['controllers'][$controller]);
@@ -91,21 +101,21 @@ class CSmvc implements ISingleton {
    
    public function ThemeEngineRender(){
 
-	global $ly;
+	global $cs;
 	
    	// Hämta sökväg till settings för theme
    	$themeName	=$this->config['theme']['name'];
-   	$themePath	= LYDIA_INSTALL_PATH."/themes/{$themeName}";
-   	$themeUrl	= $ly->request->base_url."themes/{$themeName}";
+   	$themePath	= SMVC_INSTALL_PATH."/themes/{$themeName}";
+   	$themeUrl	= $cs->request->base_url."themes/{$themeName}";
    	
    	// Lägg till stylesheet sökväg
    	$this->data['stylesheet'] = "{$themeUrl}/style.css";
    	
    	// Inkludera globala functions.php och functions.php för temat
-   	$ly =&$this;
+   	$cs =&$this;
    	$functionsPath = "{$themePath}/functions.php";
    	if(is_file($functionsPath)){
-   		include LYDIA_INSTALL_PATH."/themes/function.php";
+   		include SMVC_INSTALL_PATH."/themes/function.php";
    		include $functionsPath;
    	}
    	

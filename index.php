@@ -3,20 +3,20 @@
 //
 // PHASE: BOOTSTRAP
 //
-define('LYDIA_INSTALL_PATH', dirname(__FILE__));
-define('LYDIA_SITE_PATH', LYDIA_INSTALL_PATH . '/site');
+define('SMVC_INSTALL_PATH', dirname(__FILE__));
+define('SMVC_SITE_PATH', SMVC_INSTALL_PATH . '/site');
 
-require(LYDIA_INSTALL_PATH.'/src/bootstrap.php');
+require(SMVC_INSTALL_PATH.'/src/bootstrap.php');
 
-$ly = CSmvc::Instance();
+$cs = CSmvc::Instance();
 
 //
 // PHASE: FRONTCONTROLLER ROUTE
 //
-$ly->FrontControllerRoute();
+$cs->FrontControllerRoute();
 //
 // PHASE: THEME ENGINE RENDER
 //
-$ly->ThemeEngineRender();
+$cs->ThemeEngineRender();
 
 ?>
