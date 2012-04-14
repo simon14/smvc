@@ -1,9 +1,9 @@
 <?php
-/**
-* Interface for classes implementing the singleton pattern.
-*
-* @package LydiaCore
-*/
+
+  /*============================
+  //	Interface for Singleton classes
+  //===========================*/
+  
 interface ISingleton {
    public static function Instance();
 }

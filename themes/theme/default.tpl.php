@@ -6,17 +6,21 @@
   <link rel="stylesheet" href="<?=$stylesheet?>">
 </head>
 <body>
-  <div id="header">
+<div class='wrapper'>
+  <div class='header'>
     <?=makeHeader();?>
   </div>
-  <div id="main" role="main">
-  	<?=get_messages_from_session()?>
+</div>
+<div class='wrapper'>
+ <div class="main" role="main">
+  	<p><?=get_messages_from_session()?></p>
     <?=@$main?>
     <?=render_views()?>
   </div>
-  <div id="footer">
+  <div class="footer">
     <?=$footer?>
     <?=get_debug()?>
   </div>
+</div>
 </body>
 </html>

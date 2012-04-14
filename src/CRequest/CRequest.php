@@ -1,5 +1,11 @@
 <?php
 
+  /*============================
+  //	Request
+  // 	Manages request from the URL
+  // 	And create url's for links
+  //===========================*/
+  
 class CRequest {
 
 	public $cleanUrl;

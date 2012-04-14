@@ -1,5 +1,7 @@
 <?php
-
+/*============================
+//	Developer helpstuff
+//===========================*/
 class CCDeveloper extends CObject implements IController {
 	
 	public function __construct(){

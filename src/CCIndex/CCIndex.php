@@ -1,5 +1,7 @@
 <?php
-
+/*============================
+//	Index
+//===========================*/
 class CCIndex extends CObject implements IController {
 	
 	public function __construct(){

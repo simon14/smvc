@@ -1,7 +1,9 @@
 <?php
-/**
-* Holding a instance of SMVC
-*/
+
+  /*============================
+  //	Holding a instance of SMVC
+  // 	To be included by classes who need access to SMVC-class
+  //===========================*/
 
 class CObject {
 
@@ -9,10 +11,6 @@ class CObject {
    public $request;
    public $data;
    public $db;
-
-   /**
-    * Constructor
-    */
     
    protected function __construct() {
     $cs = CSmvc::Instance();

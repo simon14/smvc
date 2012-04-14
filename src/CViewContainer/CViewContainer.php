@@ -1,9 +1,9 @@
 <?php
-/**
-* A container to hold a bunch of views.
-*
-* @package LydiaCore
-*/
+
+  /*============================
+  //	Container that can be used for views together with a 'index.tpl.php' file
+  //===========================*/
+  
 class CViewContainer {
 
    //==================================

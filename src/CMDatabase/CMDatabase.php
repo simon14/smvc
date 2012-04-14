@@ -1,4 +1,7 @@
 <?php
+/*============================
+//	Database - Dealing with your database! SQL etc
+//===========================*/
 
 class CMDatabase {
 

@@ -1,9 +1,10 @@
 <?php
 
-/**
-* Main class for SMVC, holds everything.
-*
-*/
+
+  /*============================
+  //	Mainclass for the framework, SMVC
+  //===========================*/
+  
 class CSmvc implements ISingleton {
 
    private static $instance = null;
@@ -12,7 +13,7 @@ class CSmvc implements ISingleton {
   //  Constructor, with DB-connector
   //==================================
    protected function __construct() {
-      // include the site specific config.php and create a ref to $ly to be used by config.php
+      // include the site specific config.php and create a ref to $cs to be used by config.php
       $cs = &$this;
       require(SMVC_SITE_PATH.'/config.php');
     
@@ -38,10 +39,10 @@ class CSmvc implements ISingleton {
       
    }
 	
-   /**
-    * Singleton pattern. Get the instance of the latest created object or create a new one. 
-    * @return CLydia The instance of this class.
-    */
+   
+  /*============================
+  //	Singelton function, get last instance of itself or create a new one
+  //===========================*/
    public static function Instance() {
       if(self::$instance == null) {
          self::$instance = new CSmvc();
@@ -50,12 +51,15 @@ class CSmvc implements ISingleton {
       return self::$instance;
     }
       
-   /**
-	* Frontcontroller, check url and route to controllers.
-    */
+  
+  /*============================
+  //	Frontcontroller, check URL and send to correct controller
+  //===========================*/
   public function FrontControllerRoute() {
   
-  	// Hämta url
+  	/*============================
+    //	Get the URL
+    //===========================*/
   	$this->request = new CRequest($this->config['url_type']);
   	$this->request->Init($this->config['base_url']);
   	$controller = $this->request->controller;
@@ -63,7 +67,10 @@ class CSmvc implements ISingleton {
   	$arguments	= $this->request->arguments;
 	
   	
-  	// Kolla ifall contorller finns i config.php
+
+    /*============================
+    //	Check if the controller exsists in the site/config.php file
+    //===========================*/
   	$controllerExists	=isset($this->config['controllers'][$controller]);
   	$controllerEnabled	=false;
   	$className			=false;
@@ -75,9 +82,15 @@ class CSmvc implements ISingleton {
   		$classExists		=class_exists($className);
   	}
   	
-  	// Kontrollera ifall kontrollern har en metod att kalla, i så fall kalla på den
+
+
+    /*============================
+    //	Check if the controller has a matching method to call
+    //===========================*/
   	if($controllerExists && $controllerEnabled && $classExists) {
+  	
       $rc = new ReflectionClass($className);
+    
       if($rc->implementsInterface('IController')) {
         if($rc->hasMethod($method)) {
           $controllerObj = $rc->newInstance();
@@ -89,10 +102,8 @@ class CSmvc implements ISingleton {
       } else {
         die('404. ' . get_class() . ' error: Controller does not implement interface IController.');
       }
-    } 
-    else { 
-//      die('404. Page is not found.');
-	die("{$this->request->script_name}, Controller: {$controller}, Method: {$method}, Classnamn: {$className}");
+    } else { 
+      die('404. Page is not found.');
     }
     
   	// ====== Utskrift av controller, method, arguments ==========
@@ -104,9 +115,18 @@ class CSmvc implements ISingleton {
   	echo "Classname: ".$className."<br />";
   	*/
   	
-  	// Kör metoder
+  	
+    /*============================
+    // Add request_uri and script_name to debug
+	//===========================*/
     $this->data['debug']  = "REQUEST_URI - {$_SERVER['REQUEST_URI']}\n";
     $this->data['debug'] .= "SCRIPT_NAME - {$_SERVER['SCRIPT_NAME']}\n";
+    
+
+    /*============================
+    //	Save the name of called class in the data-array
+    //===========================*/
+    $this->data['selected'] = $className;
     
    }
    
@@ -114,15 +134,24 @@ class CSmvc implements ISingleton {
 
 	global $cs;
 	
-   	// Hämta sökväg till settings för theme
+   	
+    /*============================
+    //	Get path for theme to be used
+    //===========================*/
    	$themeName	=$this->config['theme']['name'];
    	$themePath	= SMVC_INSTALL_PATH."/themes/{$themeName}";
    	$themeUrl	= $cs->request->base_url."themes/{$themeName}";
    	
-   	// Lägg till stylesheet sökväg
+   	
+    /*============================
+    //	Get path for stylesheet
+    //===========================*/
    	$this->data['stylesheet'] = "{$themeUrl}/style.css";
    	
-   	// Inkludera globala functions.php och functions.php för temat
+   
+    /*============================
+    //	Include the functions.php and /'themepath'/functions.php for the theme
+    //===========================*/
    	$cs =&$this;
    	$functionsPath = "{$themePath}/functions.php";
    	if(is_file($functionsPath)){
@@ -130,8 +159,11 @@ class CSmvc implements ISingleton {
    		include $functionsPath;
    	}
    	
-   	// Update sessions data just before finishing the site!
-   	$this->session->StoreInSession();
+   	
+    /*============================
+    //	Save everything that have been modified into the session before printing the page
+    //===========================*/
+  	$this->session->StoreInSession();
    	
    	extract($this->views->GetData());
    	extract($this->data);

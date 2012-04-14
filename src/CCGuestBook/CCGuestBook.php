@@ -1,18 +1,18 @@
 <?php
-/**
-* A guestbook controller as an example to show off some basic controller and model-stuff.
-* 
-* @package LydiaCore
-*/
-class CCGuestbook extends CObject implements IController, IHasSQL {
+/*============================
+//	A Guestbook
+//===========================*/
+class CCGuestbook extends CObject implements IController {
 
   private $pageTitle = 'SMVC GUESTBOOK';
+  private $model = null;
 
   //==================================
   //  Constructor, also creating DB connection.
   //==================================
   public function __construct() {
     parent::__construct();
+    $this->model=new CMGuestBook();
     
   }
   
@@ -23,58 +23,12 @@ class CCGuestbook extends CObject implements IController, IHasSQL {
   
     $this->views->SetTitle($this->pageTitle);
     $this->views->AddInclude(__DIR__ . '/index.tpl.php', array(
-      'entries'=>$this->ReadAllEntries(), 
+      'entries'=>$this->model->ReadAll(), 
       'formAction'=>$this->request->CreateUrl('guestbook/handler')
     ));
     
   }
-  
-  
-  //==================================
-  //  SQL-handler from SQL Interface (IHasSQL)
-  //==================================
-  public static function SQL($key=null, $values=null) {
-  
-  	$queries = array(
-  		'insert into guestbook' 	=> "INSERT INTO Guestbook (id, entry, date) VALUES (null, '{$values['entry']}', '{$values['time']}');",
-  		'select * from guestbook' 	=> 'SELECT * FROM Guestbook ORDER BY id DESC;',
-  		'delete from guestbook'		=> 'TRUNCATE TABLE Guestbook;',
-  	);
-  	
-  	if(!isset($queries[$key])) {
-  		throw new Exception("No such SQL query, key '$key' was not found.");
-  	}
-  	
-  	return $queries[$key];
-  
-  }
-  
-  //==================================
-  //  Add a entry to the guestbook.
-  //==================================
-  public function SaveEntryDB($entry=null){
-  
-  		$time = date('c');
-  		$this->db->ExecuteQuery(self::SQL('insert into guestbook', array('entry' => "{$entry}", 'time' => "{$time}")));
-  		$this->session->AddMessage('info', 'Message added!');
-  }
-  
-  //==================================
-  //  Clear all entries from database.
-  //==================================
-  public function ClearEntryDB() {
-  
-  	  $this->db->ExecuteQuery(self::SQL('delete from guestbook'));
-  	  $this->session->AddMessage('info', 'All messages removed!');
-  }
-  
-  //==================================
-  //  Read all entries from database.
-  //==================================  
-  private function ReadAllEntries() {
-    
-    return  $this->db->ExecuteSelectQueryAndFetchAll('SELECT * FROM Guestbook ORDER BY id DESC;');
-  }
+ 
   
   //==================================
   // Handle posts from the form and take appropriate action.
@@ -82,24 +36,20 @@ class CCGuestbook extends CObject implements IController, IHasSQL {
   public function handler() {
     if(isset($_POST['doAdd'])) {
       
-      $this->SaveEntryDB(strip_tags($_POST['newEntry']));
+      $this->model->Add(strip_tags($_POST['newEntry']));
     }
     elseif(isset($_POST['doClear'])) {
       
-      $this->ClearEntryDB();
+      $this->model->Clear();
     }            
     elseif(isset($_POST['doCreate'])) {
       
-      $this->CreateTableInDatabase();
+      $this->model->CreateTableInDatabase();
     } 
     
     header('Location: ' . $this->request->CreateUrl('guestbook'));
   }
 
-
-
-  
-  
 }
 
 ?>

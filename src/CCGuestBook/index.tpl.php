@@ -1,6 +1,6 @@
 <form action='<?=$formAction?>' method='post'>
         <p>
-          <label>Message: <br/>
+          <label>
           <textarea name='newEntry'></textarea></label>
         </p>
         <p>
@@ -9,9 +9,9 @@
         </p>
 </form>
 <?php foreach($entries as $val):?>
-<p>
-Post: <?=$val['entry']?>
+<p class='post'>
+<?=$val['entry']?>
 <br />
-Time: <?=$val['date']?>
+<small>Posted on: <?=$val['date']?></small>
 </p>
 <?php endforeach;?>
