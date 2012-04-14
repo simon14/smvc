@@ -7,8 +7,6 @@
 class CCGuestbook extends CObject implements IController, IHasSQL {
 
   private $pageTitle = 'SMVC GUESTBOOK';
-  private $pageHeader = '<h1>Guestbook</h1>';
-//  private $db = "";
 
   //==================================
   //  Constructor, also creating DB connection.
@@ -22,29 +20,13 @@ class CCGuestbook extends CObject implements IController, IHasSQL {
   //  IController interface used, Index() included.
   //==================================
   public function Index() {   
-    $formAction = $this->request->CreateUrl('guestbook/handler');
-    $this->pageForm = "
-      <form action='{$formAction}' method='post'>
-        <p>
-          <label>Message: <br/>
-          <textarea name='newEntry'></textarea></label>
-        </p>
-        <p>
-          <input type='submit' name='doAdd' value='Add message' />
-          <input type='submit' name='doClear' value='Clear all messages' />
-        </p>
-      </form>
-    ";
-    $this->data['title'] = $this->pageTitle;
-    $this->data['header'] = "Guestbook";
-    $this->data['main']  = $this->pageHeader . $this->pageForm;// . $this->pageMessages;
+  
+    $this->views->SetTitle($this->pageTitle);
+    $this->views->AddInclude(__DIR__ . '/index.tpl.php', array(
+      'entries'=>$this->ReadAllEntries(), 
+      'formAction'=>$this->request->CreateUrl('guestbook/handler')
+    ));
     
-    $oldEntries=$this->ReadAllEntries();
-    
-    foreach($oldEntries as $val){
-    	$this->data['main'].="<p>".$val['entry']."<br />".$val['date']."</p>
-    	";
-    }
   }
   
   
@@ -74,6 +56,7 @@ class CCGuestbook extends CObject implements IController, IHasSQL {
   
   		$time = date('c');
   		$this->db->ExecuteQuery(self::SQL('insert into guestbook', array('entry' => "{$entry}", 'time' => "{$time}")));
+  		$this->session->AddMessage('info', 'Message added!');
   }
   
   //==================================
@@ -82,6 +65,7 @@ class CCGuestbook extends CObject implements IController, IHasSQL {
   public function ClearEntryDB() {
   
   	  $this->db->ExecuteQuery(self::SQL('delete from guestbook'));
+  	  $this->session->AddMessage('info', 'All messages removed!');
   }
   
   //==================================

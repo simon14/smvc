@@ -20,6 +20,8 @@ class CObject {
     $this->request  = &$cs->request;
     $this->data     = &$cs->data;
     $this->db		= &$cs->db;
+    $this->views	= &$cs->views;
+    $this->session	= &$cs->session;
   }
 
 }

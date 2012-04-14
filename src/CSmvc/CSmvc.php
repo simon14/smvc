@@ -25,6 +25,17 @@ class CSmvc implements ISingleton {
       	$this->db = new CMDatabase($this->config['database'][0]['dsn'], $this->config['database'][0]['usr'], $this->config['database'][0]['pass']);
       }
       
+      //==================================
+   	  // 	Viewcontainer for the methods
+      //==================================
+   	  $this->views = new CViewContainer();
+   	  
+      // Start a named session
+      session_name($this->config['session_name']);
+      session_start();
+      $this->session = new CSession($this->config['session_key']);
+      $this->session->PopulateFromSession();
+      
    }
 	
    /**
@@ -119,6 +130,10 @@ class CSmvc implements ISingleton {
    		include $functionsPath;
    	}
    	
+   	// Update sessions data just before finishing the site!
+   	$this->session->StoreInSession();
+   	
+   	extract($this->views->GetData());
    	extract($this->data);
    	extract($this->config);
 	include("{$themePath}/default.tpl.php");

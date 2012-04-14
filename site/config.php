@@ -74,27 +74,12 @@ $cs->config['url_type'] = 1;
 
 /**
 * Set database(s).
-*
-*	type = database type
-*	url = url to database
-*	user = username
-*	pass = password
-*	db = db_zapp
-
-$cs->config['database'] = array(
-	'type'	=> 'mysql',
-	'url' 	=> 'x3e.org',
-	'user' 	=> 'zapp',
-	'pass'	=> 'brannigan',
-	'db' 	=> 'db_zapp',
-);
-*/
-
-/**
-* Set database(s).
 */
 $cs->config['database'][0]['dsn'] = "mysql:dbname=db_zapp;host=x3e.org";
 $cs->config['database'][0]['usr'] = "zapp";
 $cs->config['database'][0]['pass'] = "brannigan";
 
+
+$cs->config['session_key']  = 'lydia';
+$cs->config['session_name'] = 'mvc';
 ?>

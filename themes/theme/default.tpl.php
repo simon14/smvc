@@ -7,10 +7,12 @@
 </head>
 <body>
   <div id="header">
-    <?=$header?>
+    <?=makeHeader();?>
   </div>
   <div id="main" role="main">
-    <?=$main?>
+  	<?=get_messages_from_session()?>
+    <?=@$main?>
+    <?=render_views()?>
   </div>
   <div id="footer">
     <?=$footer?>
