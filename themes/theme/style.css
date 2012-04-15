@@ -107,6 +107,23 @@ p.post {
 
 }
 
+div.success {
+	background:green;
+	padding:10px;
+	color:white;
+	border-radius:5px;
+}
+
+div.warning, div.error, div.alert {
+	background:red;
+	padding:10px;
+	color:white;
+	border-radius:5px;
+}
+
+div.notice, div.info {
+	color:orange;
+}
 
 input {
 	border: 1px solid transparent;
@@ -148,5 +165,5 @@ h3 {
 A:link {color:#fff;}
 A:visited {color:#fff;}
 A:active {color:#fff;}
-A:hover {color: red;}
+A:hover {color: orange;}
 

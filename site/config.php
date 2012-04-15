@@ -54,6 +54,7 @@ $cs->config['controllers'] = array(
   'test1'	  => array('enabled' => true,'class' => 'CCTest1'),
   'developer' => array('enabled' => true,'class' => 'CCDeveloper'),
   'guestbook' => array('enabled' => true,'class' => 'CCGuestBook'),
+  'user'	  => array('enabled' => true,'class' => 'CCUser'),
 );
 
 /*

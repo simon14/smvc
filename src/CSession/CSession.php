@@ -36,6 +36,10 @@ class CSession {
   public function __get($key) {
     return isset($this->data[$key]) ? $this->data[$key] : null;
   }
+  
+  public function __unset($key) {
+  	unset($this->data[$key]);
+  }
 
 
   /**
@@ -94,6 +98,24 @@ class CSession {
         unset($this->data['flash']);
       }
     }
+  }
+  
+  /*============================
+  //	Set authenticated user
+  //===========================*/
+  public function SetAuthenticatedUser($user) {
+  	self::__set('user', $user);
+  }
+  
+  /*============================
+  //	Check if user is authenticated
+  //===========================*/
+  public function GetAuthenticatedUser() {
+  	return self::__get('user');
+  }
+  
+  public function UnsetAuthenticatedUser() {
+  	self::__unset('user');
   }
 
 }

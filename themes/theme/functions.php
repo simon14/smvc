@@ -26,6 +26,7 @@ EOD;
 	  'index'         => array('text'=>'index',  'className' => 'CCIndex', 'url'=>$cs->request->CreateUrl('index')),
 	  'developer'	  => array('text'=>'developer', 'className' => 'CCDeveloper', 'url'=>$cs->request->CreateUrl('developer')),
 	  'guestbook'	  => array('text'=>'guestbook', 'className' => 'CCGuestBook', 'url'=>$cs->request->CreateUrl('guestbook')),
+	  'user'		  => array('text'=>'user', 'className' => 'CCUser', 'url' => $cs->request->CreateUrl('user')),
 	);
 
 	foreach($menu as $key => $item){
@@ -50,10 +51,13 @@ function get_debug() {
   $html = "";
   
   if($cs->config['debug']===true){
-  	  $html .= "<h2>Debuginformation</h2><hr><p>The content of the config array:</p><pre>" . htmlentities(print_r($ly->config, true)) . "</pre>";
-	  $html .= "<hr><p>The content of the data array:</p><pre>" . htmlentities(print_r($ly->data, true)) . "</pre>";
-	  $html .= "<hr><p>The content of the request array:</p><pre>" . htmlentities(print_r($ly->request, true)) . "</pre>";
+  	  $html .= "<h2>Debuginformation</h2><hr><p>The content of the config array:</p><pre>" . htmlentities(print_r($cs->config, true)) . "</pre>";
+	  $html .= "<hr><p>The content of the data array:</p><pre>" . htmlentities(print_r($cs->data, true)) . "</pre>";
+	  $html .= "<hr><p>The content of the request array:</p><pre>" . htmlentities(print_r($cs->request, true)) . "</pre>";
+	  $html .= $cs->data['debug'];
   }
+  
+  
   
   return $html;
 }
