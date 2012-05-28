@@ -5,15 +5,18 @@
 //===========================*/
 $cs->data['footer']="Simon Hevosmaa, SMVC";
 
+
 /*============================
 //	Create a header with nav-bar
 //===========================*/
 function makeHeader() {
 	
+	$login = login_menu();
+	
 	$cs = CSmvc::Instance();
 	$selected="";
 	$header=<<<EOD
-	
+
 <div class='banner'>
 <h1>smvc</h1>
 </div>
@@ -27,6 +30,7 @@ EOD;
 	  'developer'	  => array('text'=>'developer', 'className' => 'CCDeveloper', 'url'=>$cs->request->CreateUrl('developer')),
 	  'guestbook'	  => array('text'=>'guestbook', 'className' => 'CCGuestBook', 'url'=>$cs->request->CreateUrl('guestbook')),
 	  'user'		  => array('text'=>'user', 'className' => 'CCUser', 'url' => $cs->request->CreateUrl('user')),
+	  'content'		  => array('text'=>'content', 'className' =>'CCContent', 'url' => $cs->request->CreateUrl('content')),
 	);
 
 	foreach($menu as $key => $item){
@@ -41,6 +45,51 @@ EOD;
 	return $header;
 }
 
+function sub_menu() {
+
+$html=null;
+
+$cs = CSmvc::Instance();
+if($cs->data['selected']=='CCUser') {
+	$url = create_url('user');
+	$html = <<<EOD
+</div>
+<div class='wrapper'>
+  <div class='header'>
+  <nav id='navbar'>
+  <a href='{$url}/login'>Login</a>
+  <a href='{$url}/create'>Create</a>
+  <a href='{$url}/profile'>Profile</a>
+  <a href='{$url}'>Index</a>
+  </div>
+</div>
+EOD;
+}
+	return $html;
+}
+
+/*============================
+//	Create a user-login thing that shows incase user are logged in
+//===========================*/
+function login_menu() {
+	$cs = CSmvc::Instance();
+  	if($cs->user->IsAuthenticated()) {
+    	
+    	$items = "<img src='" . $cs->user->GetGravatar() . "'><br />";
+    	$items .= "<a href='" . create_url('user/profile') . "'>" . $cs->user->GetAcronym() . "</a><br />";
+	    
+	    if($cs->user->IsAdministrator()) {
+    	  $items .= "<small><a href='" . create_url('acp') . "'>acp</a><br /></small>";
+    	}
+    	
+	    $items .= "<small><a href='" . create_url('user/logout') . "'>logout</a></small>";
+	    
+	} else {
+    	$items = "<a href='" . create_url('user/login') . "'>login</a> ";
+	}
+	
+  	return "<nav id='loginNav'>$items</nav>";
+}
 
 /*============================
 //	Print debug into the footer
@@ -90,6 +139,13 @@ function get_messages_from_session() {
 function render_views() {
   
   return CSmvc::Instance()->views->Render();
+}
+
+/*============================
+//	 Filter dataz
+//===========================*/
+function filter_data() {
+
 }
 
 ?>

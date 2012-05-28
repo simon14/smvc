@@ -1,24 +1,24 @@
 <?php
-/*============================
-//	A Guestbook
-//===========================*/
+/**
+ *	A Guestbook
+ */
 class CCGuestbook extends CObject implements IController {
 
   private $pageTitle = 'SMVC GUESTBOOK';
   private $model = null;
 
-  //==================================
-  //  Constructor, also creating DB connection.
-  //==================================
+  /**
+   * Constructor, also creating DB connection.
+   */
   public function __construct() {
     parent::__construct();
     $this->model=new CMGuestBook();
     
   }
   
-  //==================================
-  //  IController interface used, Index() included.
-  //==================================
+  /**
+  *  IController interface used, Index() included.
+  */
   public function Index() {   
   
     $this->views->SetTitle($this->pageTitle);
@@ -30,9 +30,9 @@ class CCGuestbook extends CObject implements IController {
   }
  
   
-  //==================================
-  // Handle posts from the form and take appropriate action.
-  //==================================
+  /**
+   * Handle posts from the form and take appropriate action.
+   */
   public function handler() {
     if(isset($_POST['doAdd'])) {
       

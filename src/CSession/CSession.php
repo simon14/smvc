@@ -1,8 +1,8 @@
 <?php
 
-  /*============================
-  //	Session-manager
-  //===========================*/
+  /**
+  *	Session-manager
+  */
   
 class CSession {
 

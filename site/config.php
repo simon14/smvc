@@ -13,7 +13,7 @@ ini_set('display_errors', 1);
 /*
 * Define session name
 */
-$cs->config['session_name'] = preg_replace('/[:\.\/-_]/', '', $_SERVER["SERVER_NAME"]);
+/*$cs->config['session_name'] = preg_replace('/[:\.\/-_]/', '', $_SERVER["SERVER_NAME"]);*/
 
 /*
 * Define server timezone
@@ -51,17 +51,30 @@ $cs->config['debug'] = false;
 */
 $cs->config['controllers'] = array(
   'index'     => array('enabled' => true,'class' => 'CCIndex'),
-  'test1'	  => array('enabled' => true,'class' => 'CCTest1'),
   'developer' => array('enabled' => true,'class' => 'CCDeveloper'),
   'guestbook' => array('enabled' => true,'class' => 'CCGuestBook'),
   'user'	  => array('enabled' => true,'class' => 'CCUser'),
+  'acp'		  => array('enabled' => true,'class' => 'CCAdminControlPanel'),
+  'content'	  => array('enabled' => true,'class' => 'CCContent'),
+  'blog'	  => array('enabled' => true,'class' => 'CCBlog'),
+  'page'	  => array('enabled' => true,'class' => 'CCPage'),
+  'theme'	  => array('enabled' => true,'class' => 'CCTheme'),
+  'modules'   => array('enabled' => true,'class' => 'CCModules'),
 );
 
 /*
  *	Define which theme that should be used from the themes-folder (default: theme)
  */
 $cs->config['theme']=array(
-	'name'	=> 'theme'
+	'name'			  => 'grid',			// Theme to be used
+  	'stylesheet'      => 'style.css',       // Main stylesheet to include in template files
+	'template_file'   => 'index.tpl.php',   // Default template file, else use default.tpl.php
+	 // A list of valid theme regions
+  'regions' => array('flash','featured-first','featured-middle','featured-last',
+    'primary','sidebar','triptych-first','triptych-middle','triptych-last',
+    'footer-column-one','footer-column-two','footer-column-three','footer-column-four',
+    'footer',
+  ),
 );
  
 /**
@@ -76,9 +89,9 @@ $cs->config['url_type'] = 1;
 /**
 * Set database(s).
 */
-$cs->config['database'][0]['dsn'] = "mysql:dbname=db_zapp;host=x3e.org";
-$cs->config['database'][0]['usr'] = "zapp";
-$cs->config['database'][0]['pass'] = "brannigan";
+$cs->config['database'][0]['dsn'] = "mysql:dbname=db_name;host=adress";
+$cs->config['database'][0]['usr'] = "username";
+$cs->config['database'][0]['pass'] = "password";
 
 
 $cs->config['session_key']  = 'lydia';

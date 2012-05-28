@@ -49,6 +49,35 @@ body{
 
 }
 
+#loginNav {
+	position:fixed;
+	width:70px;
+ 	top:0;
+ 	right:10px;
+	margin:5px;
+	margin: 5px auto 0px auto;
+	padding: 5px;
+	border: 1px solid black;
+	border-radius:5px;
+	background: #2B2B2B;
+	-moz-box-shadow: inset 0 0 8px #1C1C1C;
+	-webkit-box-shadow: inset 0 0 8px #1C1C1C;
+	box-shadow: inset 0 0 8px #1C1C1C;
+}
+
+#loginNav a {
+	width:60px;
+	margin:5px;
+	text-decoration:none;
+	color:#666666;
+	border-radius:3px;
+}
+
+#loginNav a:hover  {
+	color:orange;
+}
+
+
 /*============================
 // BODY & DIV STYLE
 //===========================*/
@@ -66,7 +95,7 @@ div.header {
 }
 
 div.wrapper {
-	min-width:400px;
+	min-width:300px;
 	max-width:800px;
 	margin: 5px auto 0px auto;
 	border: 1px solid black;
@@ -107,6 +136,21 @@ p.post {
 
 }
 
+p.validation {
+	border: 1px solid white;
+	background: red;
+	color:white;
+}
+
+small.valerror {
+	color:white;
+	border:1px solid black;
+	border-top-left-radius:8px;
+	border-bottom-left-radius:2px;
+	background:red;	
+	padding:5px;
+}
+
 div.success {
 	background:green;
 	padding:10px;
@@ -125,16 +169,38 @@ div.notice, div.info {
 	color:orange;
 }
 
-input {
+div.floater {
+	font-family: helvetica neue; arial;
+	text-align:center;
+	position:relative;
+}
+
+input.button {
 	border: 1px solid transparent;
 	background:transparent;
 	color:grey;
+	font-size:0.8em;
 	padding-left: 10px;
 	padding-right: 10px;
 }
 
+input.field {
+	font-family:helvetica neue;
+	padding:5px;
+	background:grey;
+	color:#fff;
+	border: 1px solid black;
+	border-radius:5px;
+}
+
+label {
+	font-size:0.9em;
+}
+
 input:hover {
 	color:orange;
+	border:1px solid orange;
+	border-radius:5px;
 }
 
 textarea {
@@ -150,6 +216,15 @@ textarea {
 
 }
 
+fieldset {
+	border:1px solid transparent;
+}
+
+img {
+	border:1px solid black;
+	border-radius:5px;
+}
+
 /*============================
 // HEADER STYLE
 //===========================*/
@@ -162,6 +237,7 @@ h3 {
 	color:grey;
 }
 
+A.no_bottom{color:#fff; font-size:1em; text-decoration:none;}
 A:link {color:#fff;}
 A:visited {color:#fff;}
 A:active {color:#fff;}

@@ -1,9 +1,9 @@
 <?php
 
-  /*============================
-  //	Holding a instance of SMVC
-  // 	To be included by classes who need access to SMVC-class
-  //===========================*/
+  /**
+  *	Holding a instance of SMVC
+  * 	To be included by classes who need access to SMVC-class
+  */
 
 class CObject {
 
@@ -12,14 +12,17 @@ class CObject {
    public $data;
    public $db;
     
-   protected function __construct() {
-    $cs = CSmvc::Instance();
+   protected function __construct($cs=null) {
+    if(!$cs) {
+    	$cs = CSmvc::Instance();
+    }
     $this->config   = &$cs->config;
     $this->request  = &$cs->request;
     $this->data     = &$cs->data;
     $this->db		= &$cs->db;
     $this->views	= &$cs->views;
     $this->session	= &$cs->session;
+    $this->user		= &$cs->user;
   }
 
 }

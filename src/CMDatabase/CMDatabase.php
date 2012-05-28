@@ -1,22 +1,22 @@
 <?php
-/*============================
-//	Database - Dealing with your database! SQL etc
-//===========================*/
+/**
+*	Database - Dealing with your database! SQL etc
+*/
 
 class CMDatabase {
 
-	//==================================
-	//	Some memebers
-	//==================================
+	/**
+	*	Some memebers
+	*/
 	private $db = null;
 	private $stmt = null;
 	private static $numQueries = 0;
  	private static $queries = array();
  	
  	
- 	//==================================
-	//	Constructor, db info goes into the paramters.
-	//==================================
+ 	/**
+	*	Constructor, db info goes into the paramters.
+	*/
  	public function __construct($dsn, $user = null, $pass = null, $driver_opt = null){
  	
 		$this->db = new PDO($dsn, $user, $pass, $driver_opt);
@@ -24,23 +24,23 @@ class CMDatabase {
  	
  	}
  	
- 	//==================================
-	//	Set atributes to DB
-	//==================================
+ 	/**
+	*	Set atributes to DB
+	*/
  	public function SetAttribute($attribute, $value){
  		
  		return $this->db->setAttribute($attribute, $value);
  	}
  	
- 	//==================================
-	//	Getters
-	//==================================
+ 	/**
+	*	Getters
+	*/
 	public function GetNumQueries() { return self::$numQueries; }
   	public function GetQueries() { return self::$queries; }
  	
- 	//==================================
-	//	Execute select-query with arguments and retrun resultset.
-	//==================================
+ 	/**
+	*	Execute select-query with arguments and retrun resultset.
+	*/
 	public function ExecuteSelectQueryAndFetchAll($query, $params=array()){
     	
     	$this->stmt = $this->db->prepare($query);
@@ -51,9 +51,9 @@ class CMDatabase {
 		return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
- 	//==================================
-	//	Execute a SQL-query and ignore the resultset.
-	//==================================
+ 	/**
+	*	Execute a SQL-query and ignore the resultset.
+	*/
 	public function ExecuteQuery($query, $params = array()) {
     	
     	$this->stmt = $this->db->prepare($query);
@@ -63,17 +63,17 @@ class CMDatabase {
 		return $this->stmt->execute($params);
   	}
 	
- 	//==================================
-	//	Constructor, db info goes into the paramters.
-	//==================================
+ 	/**
+	*	Constructor, db info goes into the paramters.
+	*/
 	public function LastInsertId() {
     	
     	return $this->db->lastInsertid();
 	}
 	
- 	//==================================
-	//	Constructor, db info goes into the paramters.
-	//==================================
+ 	/**
+	*	Constructor, db info goes into the paramters.
+	*/
 	public function RowCount() {
     	
     	return is_null($this->stmt) ? $this->stmt : $this->stmt->rowCount();

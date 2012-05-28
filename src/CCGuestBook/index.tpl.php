@@ -1,11 +1,12 @@
+<h1>Guestbook.</h1>
+<div class='content'>
 <form action='<?=$formAction?>' method='post'>
         <p>
           <label>
-          <textarea name='newEntry'></textarea></label>
+          <textarea name='newEntry' class='guestbook'></textarea></label>
         </p>
         <p>
-          <input type='submit' name='doAdd' value='Add message' />
-          <input type='submit' name='doClear' value='Clear all messages' />
+          <input class='button' type='submit' name='doAdd' value='Add message' />
         </p>
 </form>
 <?php foreach($entries as $val):?>
@@ -15,3 +16,4 @@
 <small>Posted on: <?=$val['date']?></small>
 </p>
 <?php endforeach;?>
+</div>

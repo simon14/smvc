@@ -1,9 +1,9 @@
 <?php
 /**
- * A utility class to easy creating and handling of forms
- * 
- * @package LydiaCore
- */
+* A utility class to easy creating and handling of forms
+* 
+* @package SmvcCore
+*/
 class CFormElement implements ArrayAccess{
 
   /**
@@ -46,23 +46,38 @@ class CFormElement implements ArrayAccess{
     $name = " name='{$this['name']}'";
     $label = isset($this['label']) ? ($this['label'] . (isset($this['required']) && $this['required'] ? "<span class='form-element-required'>*</span>" : null)) : null;
     $autofocus = isset($this['autofocus']) && $this['autofocus'] ? " autofocus='autofocus'" : null;    
-    $readonly = isset($this['readonly']) && $this['readonly'] ? " readonly='readonly'" : null;    
-    $type 	= isset($this['type']) ? " type='{$this['type']}'" : null;
-    $value 	= isset($this['value']) ? " value='{$this['value']}'" : null;
+    $readonly = isset($this['readonly']) && $this['readonly'] ? " readonly='readonly'" : null;   
+    $type    = isset($this['type']) ? " type='{$this['type']}'" : null;
+    $value    = isset($this['value']) ? " value='{$this['value']}'" : null;
+    $values	  = isset($this['values']) ? $this['values'] : null;
+    $selected = isset($this['selected']) ? $this['selected'] : null;
 
     $messages = null;
     if(isset($this['validation_messages'])) {
       $message = null;
       foreach($this['validation_messages'] as $val) {
-        $message .= "<li>{$val}</li>\n";
+        $message .= "<small class='valerror'>{$val}</small>";
       }
-      $messages = "<ul class='validation-message'>\n{$message}</ul>\n";
+      $messages = $message;//"<ul class='validation-message'>\n{$message}</ul>\n";
     }
     
     if($type && $this['type'] == 'submit') {
-      return "<p><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} /></p>\n";	
-    } else {
-      return "<p><label for='$id'>$label</label><br><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} />{$messages}</p>\n";			  
+      return "<p><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} /></p>\n";   
+    } else if($type && $this['type'] == 'textarea') {
+      return "<p><label>{$label}</label><br /><textarea id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly}>". $this['value']. "</textarea>";
+	} else if($type && $this['type'] == 'dropdown') {
+	  $html="<p><label>{$label}</label><br /><select id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly}>";
+	  foreach($values as $val){
+	  	if($selected == $val) {
+	  		$html.="<option value='{$val}' selected='true'>{$val}</option>";
+		} else { 
+			$html.="<option value='{$val}'>{$val}</option>";
+		}
+	  }
+	  $html.="</select></p>";
+	  return $html;
+	} else {
+      return "<p><label for='$id'>$label</label><br><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} />{$messages}</p>\n";           
     }
   }
 
@@ -86,14 +101,6 @@ class CFormElement implements ArrayAccess{
       'not_empty' => array(
         'message' => 'Can not be empty.', 
         'test' => 'return $value != "";',
-      ),
-      'number' => array(
-    	'message' => 'Must be a number of atleast 8 digits.',
-    	'test' => 'return is_numeric($value)&&strlen($value)>=8;'
-      ),
-      'email' => array(
-        'message' => 'Must be a vaild e-mail.',
-        'test'	=> 'return (strstr($value, "@")&&strstr($value, "."));'
       ),
     );
     $pass = true;
@@ -150,6 +157,35 @@ class CFormElementText extends CFormElement {
 }
 
 
+class CFormElementHidden extends CFormElement {
+  /**
+   * Constructor
+   *
+   * @param string name of the element.
+   * @param array attributes to set to the element. Default is an empty array.
+   */
+  public function __construct($name, $attributes=array()) {
+    parent::__construct($name, $attributes);
+    $this['type'] = 'text';
+    $this->UseNameAsDefaultLabel();
+  }
+}
+
+class CFormElementTextarea extends CFormElement {
+  /**
+   * Constructor
+   *
+   * @param string name of the element.
+   * @param array attributes to set to the element. Default is an empty array.
+   */
+  public function __construct($name, $attributes=array()) {
+    parent::__construct($name, $attributes);
+    $this['type'] = 'textarea';
+    $this->UseNameAsDefaultLabel();
+  }
+}
+
+
 class CFormElementPassword extends CFormElement {
   /**
    * Constructor
@@ -164,6 +200,20 @@ class CFormElementPassword extends CFormElement {
   }
 }
 
+class CFormElementDropdown extends CFormElement {
+	/*
+	 *
+	 *
+	 *
+	 *
+	 *
+	 */
+	public function __construct($name, $attributes=array()) {
+		parent::__construct($name, $attributes);
+		$this['type'] = 'dropdown';
+		$this->UseNameAsDefaultValue();
+	}
+}
 
 class CFormElementSubmit extends CFormElement {
   /**
@@ -178,6 +228,8 @@ class CFormElementSubmit extends CFormElement {
     $this->UseNameAsDefaultValue();
   }
 }
+
+
 
 
 class CForm implements ArrayAccess {
@@ -233,22 +285,14 @@ class CForm implements ArrayAccess {
   
 
   /**
-   * Return HTML for the form or the formdefinition.
-   *
-   * @param $type string what part of the form to return.
-   * @returns string with HTML for the form.
+   * Return HTML for the form
    */
-  public function GetHTML($type=null) {
-    $id 	  = isset($this->form['id'])      ? " id='{$this->form['id']}'" : null;
-    $class 	= isset($this->form['class'])   ? " class='{$this->form['class']}'" : null;
-    $name 	= isset($this->form['name'])    ? " name='{$this->form['name']}'" : null;
+  public function GetHTML() {
+    $id      = isset($this->form['id'])      ? " id='{$this->form['id']}'" : null;
+    $class    = isset($this->form['class'])   ? " class='{$this->form['class']}'" : null;
+    $name    = isset($this->form['name'])    ? " name='{$this->form['name']}'" : null;
     $action = isset($this->form['action'])  ? " action='{$this->form['action']}'" : null;
     $method = " method='post'";
-
-    if($type == 'form') {
-      return "<form{$id}{$class}{$name}{$action}{$method}>";
-    }
-    
     $elements = $this->GetHTMLForElements();
     $html = <<< EOD
 \n<form{$id}{$class}{$name}{$action}{$method}>
@@ -259,7 +303,7 @@ class CForm implements ArrayAccess {
 EOD;
     return $html;
   }
- 
+
 
   /**
    * Return HTML for the elements
