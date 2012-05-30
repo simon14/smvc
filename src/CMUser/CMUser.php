@@ -37,13 +37,19 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
           			$password = $this->CreatePassword('doe');
           			$this->db->ExecuteQuery(self::SQL('insert into user'), array('doe', 'John/Jane Doe', 'doe@dbwebb.se', $password['password'],  $password['salt'], date('c')));
           			$idDoeUser = $this->db->LastInsertId();
+          			$password = $this->CreatePassword('writer');
+          			$this->db->ExecuteQuery(self::SQL('insert into user'), array('writer', 'Man/Woman Writer', 'writer@dbwebb.se', $password['password'],  $password['salt'], date('c')));
+          			$idWriterUser = $this->db->LastInsertId();
           			$this->db->ExecuteQuery(self::SQL('insert into group'), array('admin', 'The Administrator Group'));
           			$idAdminGroup = $this->db->LastInsertId();
           			$this->db->ExecuteQuery(self::SQL('insert into group'), array('user', 'The User Group'));
           			$idUserGroup = $this->db->LastInsertId();
+          			$this->db->ExecuteQuery(self::SQL('insert into group'), array('writer', 'The Writer Group'));
+          			$idWriterGroup = $this->db->LastInsertId();
           			$this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idRootUser, $idAdminGroup));
           			$this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idRootUser, $idUserGroup));
           			$this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idDoeUser, $idUserGroup));
+          			$this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idWriterUser, $idWriterGroup));
 
 
 		          	return array('success', 'Successfully created the database tables and created a default admin user as root:root and an ordinary user as doe:doe.');
@@ -78,7 +84,19 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
 			'drop table user2group'	  => 'drop table User2Groups',
 			'drop table group'		  => 'drop table Groups',
 			'drop table user'		  => 'drop table User',
-			'create table user'		  => "CREATE TABLE `User` (`id` int(11) unsigned NOT NULL AUTO_INCREMENT,  `akronym` text,  `name` text,  `email` text,  `password` text,  `salt` text,  `theme` varchar(10) DEFAULT NULL,  `created` datetime DEFAULT NULL,  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,  PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;",
+			'create table user'		  => "CREATE TABLE `User` (
+										`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+										`akronym` varchar(12) DEFAULT '',
+										`name` text,
+										`email` text,
+										`password` text,
+										`salt` text,
+										`theme` varchar(10) DEFAULT NULL,
+										`created` datetime DEFAULT NULL,
+										`updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+										PRIMARY KEY (`id`),
+										UNIQUE KEY `AKRONYM` (`akronym`)
+							 	  		) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;",
 			'create table user2group' => "CREATE TABLE `User2Groups` (  `idUser` int(11) NOT NULL DEFAULT '0',  `idGroups` int(11) NOT NULL DEFAULT '0',  `created` datetime DEFAULT NULL,  PRIMARY KEY (`idUser`,`idGroups`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
 			'create table group'	  => "CREATE TABLE `Groups` (  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,  `akronym` text,  `name` text,  `created` datetime DEFAULT NULL,  PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;",
 			'insert into user' 		  => 'INSERT INTO User (akronym, name, email, password, salt, created) VALUES (?,?,?,?,?,?);',
@@ -88,7 +106,9 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
       		'get group memberships'   => "SELECT * FROM Groups AS g INNER JOIN User2Groups AS ug ON g.id=ug.idGroups WHERE ug.idUser=?;",
       		'update profile'		  => "UPDATE User SET name = ?, email = ?  WHERE id = ?;",
       		'update password'		  => "UPDATE User SET password = ?, salt = ? WHERE id = ?;",
-      		'get all'				  => "SELECT * FROM User;"
+      		'get all'				  => "SELECT * FROM User;",
+      		'delete user'			  => "DELETE FROM User WHERE id=?;",
+			'get groups'			  => "SELECT * FROM Groups;",
 		);
 		
 		if(!isset($queries[$key])) {
@@ -103,6 +123,84 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
 	*/
 	public function Init() {
 	
+	}
+	
+	/**
+  	* 	Make user a admin.
+  	*
+  	*	@param ID of user to be promoted.
+  	*/
+  	public function makeAdmin($id=null) {
+
+
+		if($this->user->IsAdministrator()) { 		
+	  		$groupsNr = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('get groups'));
+  			$adminGrp = null;
+  			foreach($groupsNr as $val) {
+  				if($val['akronym'] == 'admin') {
+  					$adminGrp=$val['id'];
+	  			}
+  			}
+  		
+  			if($adminGrp!=null && $id!=null) {
+	  			try {
+  					$this->db->ExecuteQuery(self::SQL('insert into user2group'), array($id, $adminGrp));
+	  				$this->session->AddMessage('notice', 'User was promoted to admin.');
+  				} catch(Exception $e) {
+  					$this->session->AddMessage('notice', 'Failed to promote user.');
+  				}
+  			}
+  		} else {
+  			$this->session->AddMessage('warning', 'You cannot promote a user unless your an administrator.');
+  		}
+  		
+  		Header('Location:'.$_SESSION['lastPage']);
+  	}
+  	
+  	/**
+  	*	Make user a writer.
+  	*
+  	*	@param ID of user to be promoted.
+  	*/
+  	public function makeWriter($id=null) {
+  			
+  		if($this->user->IsAdministrator()) { 		
+	  		$groupsNr = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('get groups'));
+  			$writerGrp = null;
+  			foreach($groupsNr as $val) {
+  				if($val['akronym'] == 'writer') {
+  					$writerGrp=$val['id'];
+	  			}
+  			}
+  			
+  			if($writerGrp!=null && $id!=null) {
+	  			try {
+		  			$this->db->ExecuteQuery(self::SQL('insert into user2group'), array($id, $writerGrp));
+  					$this->session->AddMessage('notice', 'User was promoted to writer');
+  				} catch (Exception $e) {	
+  					$this->session->AddMessage('notice', 'Failed to promote user.');
+	  			}
+	  		}
+	  		
+  		} else {
+  			$this->session->AddMessage('warning', 'You cannot promote a user unless your an administrator.');
+  		}
+  		
+  		Header('Location:'.$_SESSION['lastPage']);
+
+  	}
+  	
+  	/**
+  	*	Delete a user.
+  	*
+  	*	@param ID of user to be deleted.
+  	*/
+	public function Delete($id=null) {
+		
+		if($this->user->IsAdministrator()){
+  			$this->db->ExecuteQuery(self::SQL('delete user'), array($id));	
+  			Header('Location:'. $this->request->CreateUrl('acp'));
+  		}
 	}
 
 	/**
@@ -210,18 +308,63 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
 	}
 	
 	/**
+	* 	Get all users
+	*/
+	public function GetAllUsers() {
+		
+		$users=$this->db->ExecuteSelectQueryAndFetchAll(self::SQL('get all'));
+		/*foreach($users as $key => $val) {
+			$users["{$key}"]['groups'] = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('get group memberships'), array($val['id']));
+		}*/
+		
+		$i=0;
+		foreach($users as $key => $val) {
+			$groups = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('get group memberships'), array($users[$i]['id']));
+			$groupsAkronyms = array();
+			foreach($groups as $grp) {
+				array_push($groupsAkronyms, $grp['akronym']);
+			}
+		
+			$users["{$key}"]['groups']=$groupsAkronyms;
+			$i++;
+		}
+		
+		return $users;
+	}
+	
+	/**
 	*	IsAdministrator, check if user is administrator
 	*/
 	public function IsAdministrator() {
 		$user = self::GetUserProfile();
 		$ifAdmin = false;
 		
-		foreach($user['groups'] as $val) {
-			if($val['akronym'] == 'admin')
-				$ifAdmin=true;
+		if($this->IsAuthenticated()) {
+			foreach($user['groups'] as $val) {
+				if($val['akronym'] == 'admin')
+					$ifAdmin=true;
+			}
+		}
+			
+		return $ifAdmin;
+	}
+	
+	/**
+	*	IsAdministrator, check if user is administrator
+	*/
+	public function IsWriter() {
+		$user = self::GetUserProfile();
+		$ifWriter = false;
+		
+		
+		if($this->IsAuthenticated()) {
+			foreach($user['groups'] as $val) {
+				if($val['akronym'] == 'writer' || $val['akronym'] == 'admin')
+					$ifWriter=true;
+			}
 		}
 		
-		return $ifAdmin;
+		return $ifWriter;
 	}
 	
 	/**

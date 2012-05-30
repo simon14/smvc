@@ -6,6 +6,9 @@ var class_c_m_content =
     [ "FilterContent", "class_c_m_content.html#abd4304714118cb2f4123fdf4d5d42869", null ],
     [ "GetAllFilteredData", "class_c_m_content.html#a3bf86243e703bff15471dbe4c4674acf", null ],
     [ "GetFilteredData", "class_c_m_content.html#a1b1dedb225605c8bb286b07a74e9457e", null ],
+    [ "GoBackNews", "class_c_m_content.html#aa5edfe31231b629bb22d622047d1ba6a", null ],
+    [ "GoNextNews", "class_c_m_content.html#aecc1463139c8849e1e9807135e8d63ae", null ],
+    [ "Like", "class_c_m_content.html#a8a1a885cc58fb96e6bece39871496906", null ],
     [ "ListAll", "class_c_m_content.html#a779668cfb0157d3108bd0602089ae6e5", null ],
     [ "LoadById", "class_c_m_content.html#ac6670c858c32ee46d21ef0b471d8b137", null ],
     [ "Manage", "class_c_m_content.html#a3034a183dc2f06662107b71f62a12b22", null ],
@@ -13,6 +16,7 @@ var class_c_m_content =
     [ "offsetGet", "class_c_m_content.html#a59aee6e89465b48f014699f41b521f87", null ],
     [ "offsetSet", "class_c_m_content.html#ac6bde6b1eb50eb5377e91771fe46b7a3", null ],
     [ "offsetUnset", "class_c_m_content.html#a2411227ea7118b13495de9839fd4b563", null ],
+    [ "Restore", "class_c_m_content.html#ae4598059f26b1d152cd0f6d1f0ae21ca", null ],
     [ "Save", "class_c_m_content.html#a025c17868748575bcc091618021f6fc1", null ],
     [ "SQL", "class_c_m_content.html#aeceafb392a3f2f5b094e8ed79e432d91", null ],
     [ "$data", "class_c_m_content.html#a6efc15b5a2314dd4b5aaa556a375c6d6", null ]

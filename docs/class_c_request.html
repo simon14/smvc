@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>SMVC: CRequest Class Reference</title>
+<title>smvc: CRequest Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,8 +28,8 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="new-logo.png"/></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">SMVC
-   &#160;<span id="projectnumber">1.0</span>
+   <div id="projectname">smvc
+   &#160;<span id="projectnumber">0.0.6</span>
    </div>
   </td>
  </tr>
@@ -116,8 +116,7 @@ $(document).ready(function(){initNavTree('class_c_request.html','');});
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a3d5a6a22db2057b62551e589039afefd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3d5a6a22db2057b62551e589039afefd"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>__construct</b> ($urlType=0)</td></tr>
-<tr class="memitem:a00b963baa5bde8ec077ea01f385154c2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a00b963baa5bde8ec077ea01f385154c2"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ($baseUrl=null)</td></tr>
+<tr class="memitem:aef69353a75728fd17b4ea597165d3eb8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_request.html#aef69353a75728fd17b4ea597165d3eb8">Init</a> ($baseUrl=null, $routing=null)</td></tr>
 <tr class="memitem:a1e9470edc276cc264290089d635a1124"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1e9470edc276cc264290089d635a1124"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>GetCurrentUrl</b> ()</td></tr>
 <tr class="memitem:ab361f9e7452f451a996bb8f4dea8b362"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab361f9e7452f451a996bb8f4dea8b362"></a>
@@ -132,7 +131,43 @@ Data Fields</h2></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Request Manages request from the URL And create url's for links </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+</div><hr/><h2>Member Function Documentation</h2>
+<a class="anchor" id="aef69353a75728fd17b4ea597165d3eb8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Init </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$baseUrl</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$routing</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Parse the current url request and divide it in controller, method and arguments.</p>
+<p>Calculates the base_url of the installation. Stores all useful details in $this.</p>
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">$baseUrl</td><td>string use this as a hardcoded baseurl. </td></tr>
+    <tr><td class="paramname">$routing</td><td>array key/val to use for routing if url matches key. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>/Users/simon/Desktop/smvc/src/CRequest/CRequest.php</li>
 </ul>
 </div><!-- contents -->
@@ -141,7 +176,7 @@ Data Fields</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_c_request.html">CRequest</a></li>
-    <li class="footer">Generated on Mon May 28 2012 15:16:44 for SMVC by
+    <li class="footer">Generated on Wed May 30 2012 22:19:18 for smvc by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1 </li>
   </ul>

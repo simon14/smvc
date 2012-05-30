@@ -33,6 +33,8 @@ function makeMenu() {
 	  'user'		  => array('text'=>'user', 'className' => 'CCUser', 'url' => $cs->request->CreateUrl('user')),
 	  'content'		  => array('text'=>'content', 'className' =>'CCContent', 'url' => $cs->request->CreateUrl('content')),
 	  'blog'		  => array('text'=>'blog', 'className' =>'CCBlog', 'url' => $cs->request->CreateUrl('blog')),
+	  'news'		  => array('text'=>'news', 'className' =>'CCNews', 'url' => $cs->request->CreateUrl('news')),
+	  'modules'		  => array('text'=>'modules', 'className' =>'CCModules', 'url' => $cs->request->CreateUrl('modules')),
 	);
 
 	foreach($menu as $key => $item){

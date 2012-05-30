@@ -1,12 +1,12 @@
 var NAVTREEINDEX =
 [
 "_h_t_m_l_purifier_8standalone_8php.html",
-"class_h_t_m_l5_tree_constructer.html#abc655a64b7b69ade23d4edc1eae470e7",
-"class_h_t_m_l_purifier___attr_transform___safe_param.html#ab2fc40d43824ea3e1ce5d86dee0d763b",
-"class_h_t_m_l_purifier___definition_cache___decorator.html#a97e7a76854aa2faa445d660fe7273eec",
-"class_h_t_m_l_purifier___h_t_m_l_module___presentation.html",
-"class_h_t_m_l_purifier___printer.html#a857ad0e6cf161d63eaead0ec0cbb4afe",
-"class_h_t_m_l_purifier___u_r_i_scheme__https.html#ac333b53c5327c077dd3cdf3dbdaf8459",
-"classlessc.html#ab18dd28f796e857c1d63a0fe14d5a606",
-"interface_i_controller.html#ac36db983080e1b0934908febca5de2d9",
+"class_h_t_m_l5_tree_constructer.html#a29a68d7915b4e7ed257209e14c7788cd",
+"class_h_t_m_l_purifier___attr_transform___name.html",
+"class_h_t_m_l_purifier___definition_cache.html#a7888f38923460890245ec52d3434d341",
+"class_h_t_m_l_purifier___h_t_m_l_module___list.html#a5d3cca674705bb8355b605edcb7e386c",
+"class_h_t_m_l_purifier___lexer___direct_lex.html#ae664a8a430b515779780ffa7e328f66b",
+"class_h_t_m_l_purifier___u_r_i_scheme__data.html#a7f03f0effd29a9ed80b4e0efa5f85a88",
+"classlessc.html#aa4c6a0b87c6e47fa6f863eedb300e707",
+"functions_func_0x72.html",
 ];

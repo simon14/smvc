@@ -7,10 +7,11 @@ Login is possible with following testusers:
   <li>root, root
   <li>doe, doe
 </ul>
-<a href='<?=create_url('user/login')?>'>Login right here</a>
-<a href='<?=create_url('user/Create')?>'>or create a new user!</a>
+<ul>
+	<li><a href='<?=create_url('user/login')?>'>Login right here.</a>
+	<li><a href='<?=create_url('user/Create')?>'>Or create a new user!</a>
+</ul>
 <p>This is what is known on the current user.</p>
-
 <?php if($is_authenticated): ?>
   <p>User is authenticated.</p>
   <pre><?=print_r($user, true)?></pre>

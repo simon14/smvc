@@ -17,13 +17,16 @@ class CSmvc implements ISingleton {
       $cs = &$this;
       require(SMVC_SITE_PATH.'/config.php');
     	
-    
-      /**
+   
+      if($this->config['database'][0]['disabled']==false){
+ 
+	 /**
 	  *  Check if config['database'] exists and contain info
 	  *  In that case, connect to that database
 	  */
-	  if(isset($this->config['database'][0]['dsn'])){
-      	$this->db = new CMDatabase($this->config['database'][0]['dsn'], $this->config['database'][0]['usr'], $this->config['database'][0]['pass']);
+      	if(isset($this->config['database'][0]['dsn'])){
+      		$this->db = new CMDatabase($this->config['database'][0]['dsn'], $this->config['database'][0]['usr'], $this->config['database'][0]['pass']);
+      	}
       }
       
       /**
@@ -66,13 +69,12 @@ class CSmvc implements ISingleton {
     *	Get the URL
     */
   	$this->request = new CRequest($this->config['url_type']);
-  	$this->request->Init($this->config['base_url']);
+  	$this->request->Init($this->config['base_url'], $this->config['routing']);
   	$controller = $this->request->controller;
   	$method		= $this->request->method;
   	$arguments	= $this->request->arguments;
 	
-  	
-
+	
     /**
     *	Check if the controller exsists in the site/config.php file
     */

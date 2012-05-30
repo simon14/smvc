@@ -1,7 +1,7 @@
 var searchData=
 [
   ['decorate',['decorate',['../class_h_t_m_l_purifier___definition_cache___decorator.html#ae52102096c85ccf41aeb574b356eebf3',1,'HTMLPurifier_DefinitionCache_Decorator']]],
-  ['delete',['Delete',['../class_c_m_content.html#a2c5f90a8d8afbe68447fb4b4f2e30c73',1,'CMContent']]],
+  ['delete',['Delete',['../class_c_c_user.html#a2c5f90a8d8afbe68447fb4b4f2e30c73',1,'CCUser\Delete()'],['../class_c_m_content.html#a2c5f90a8d8afbe68447fb4b4f2e30c73',1,'CMContent\Delete()'],['../class_c_m_user.html#a2c5f90a8d8afbe68447fb4b4f2e30c73',1,'CMUser\Delete()']]],
   ['deprecated_20list',['Deprecated List',['../deprecated.html',1,'']]],
   ['destroy',['destroy',['../class_h_t_m_l_purifier___context.html#a126b2af9806aa5c2bdf4d69797f73619',1,'HTMLPurifier_Context']]],
   ['displayobjects',['displayObjects',['../class_c_c_developer.html#accc47ab060b8221b567cacba2eb06408',1,'CCDeveloper']]],

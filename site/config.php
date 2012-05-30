@@ -60,6 +60,16 @@ $cs->config['controllers'] = array(
   'page'	  => array('enabled' => true,'class' => 'CCPage'),
   'theme'	  => array('enabled' => true,'class' => 'CCTheme'),
   'modules'   => array('enabled' => true,'class' => 'CCModules'),
+  'news'   => array('enabled' => true,'class' => 'CCNews'),
+);
+
+/**
+* Define a routing table for urls.
+*
+* Route custom urls to a defined controller/method/arguments
+*/
+$cs->config['routing'] = array(
+  'about' => array('enabled' => true, 'url' => 'page/view/5'),
 );
 
 /*
@@ -68,7 +78,7 @@ $cs->config['controllers'] = array(
 $cs->config['theme']=array(
 	'name'			  => 'grid',			// Theme to be used
   	'stylesheet'      => 'style.css',       // Main stylesheet to include in template files
-	'template_file'   => 'index.tpl.php',   // Default template file, else use default.tpl.php
+	'template_file'   => 'default.tpl.php',   // Default template file, else use default.tpl.php
 	 // A list of valid theme regions
   'regions' => array('flash','featured-first','featured-middle','featured-last',
     'primary','sidebar','triptych-first','triptych-middle','triptych-last',
@@ -88,11 +98,15 @@ $cs->config['url_type'] = 1;
 
 /**
 * Set database(s).
+* ['dsn'] 	- Connection info, change the info so it matches ['db_databasename', name of your database]['yourServer', address to your MySql-server]['3306', default port for MySql]
+* ['usr']	- Username
+* ['pass'] 	- Password
+* ['disabled']  - Incase database should be activated or not. If 'true' Csmvc will not try to connect to the database.
 */
-$cs->config['database'][0]['dsn'] = "mysql:dbname=db_name;host=adress";
+$cs->config['database'][0]['dsn'] = "mysql:dbname=db_databasename;host=yourServer;port=3306";
 $cs->config['database'][0]['usr'] = "username";
 $cs->config['database'][0]['pass'] = "password";
-
+$cs->config['database'][0]['disabled'] = true;
 
 $cs->config['session_key']  = 'lydia';
 $cs->config['session_name'] = 'mvc';

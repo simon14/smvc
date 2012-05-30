@@ -1,6 +1,6 @@
 var NAVTREE =
 [
-  [ "SMVC", "index.html", [
+  [ "smvc", "index.html", [
     [ "docs", "md_docs.html", null ],
     [ "lessphp v0.3.4-2", "md__r_e_a_d_m_e.html", null ],
     [ "changelog", "md_changelog.html", null ],

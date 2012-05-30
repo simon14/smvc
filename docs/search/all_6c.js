@@ -3,6 +3,7 @@ var searchData=
   ['lastinsertid',['LastInsertId',['../class_c_m_database.html#af1dd485315c62199158ef0f63e0d267d',1,'CMDatabase']]],
   ['lessc',['lessc',['../classlessc.html',1,'']]],
   ['lessify',['lessify',['../classlessify.html',1,'']]],
+  ['like',['Like',['../class_c_c_page.html#a1c567c847d1900da243f11e13f2cf858',1,'CCPage']]],
   ['lineno',['LINENO',['../class_h_t_m_l_purifier___error_collector.html#a57db0874cef433640cbb9d5147eb2312',1,'HTMLPurifier_ErrorCollector']]],
   ['listall',['ListAll',['../class_c_m_content.html#a779668cfb0157d3108bd0602089ae6e5',1,'CMContent']]],
   ['listify',['listify',['../class_h_t_m_l_purifier___language.html#a2130fb66ef7fbe16ce4de13606677faf',1,'HTMLPurifier_Language\listify()'],['../class_h_t_m_l_purifier___printer.html#af807efa0f571e4000eb60499a97651ef',1,'HTMLPurifier_Printer\listify()']]],

@@ -19,13 +19,13 @@ class CFormContent extends CForm {
     $this->content = $content;
     $save = isset($content['id']) ? 'save' : 'create';
     $this->AddElement(new CFormElementText('title', array('value'=>$content['title'], 'class' => 'field')))
-	     ->AddElement(new CFormElementText('subtitle', array('value'=>$content['subtitle'], 'class' => 'field')))
+	     ->AddElement(new CFormElementTextarea('short', array('label'=>'Short description, max 30 words:', 'value'=>$content['short'], 'class' => 'textarea')))
       //   ->AddElement(new CFormElementText('type', array('value'=>$content['type'])))
          ->AddElement(new CFormElementTextarea('content', array('label'=>'Content:', 'value'=>$content['content'])))
          ->AddElement(new CFormElementText('image', array('value'=>$content['image'], 'class' => 'field')))
-         ->AddElement(new CFormElementText('video', array('value'=>$content['video'], 'class' => 'field')))
+         ->AddElement(new CFormElementText('img', array('label'=>'Thumbnail image', 'value'=>$content['img'], 'class' => 'field')))
         // ->AddElement(new CFormElementText('filter', array('value'=>$content['filter'])))
-         ->AddElement(new CFormElementDropdown('type', array('label'=>'Type:', 'values'=>array('blog', 'page'), 'selected'=>$content['type'], 'class' => 'drop')))
+         ->AddElement(new CFormElementDropdown('type', array('label'=>'Type:', 'values'=>array('blog', 'page', 'news'), 'selected'=>$content['type'], 'class' => 'drop')))
          ->AddElement(new CFormElementDropdown('filter', array('label'=>'Filter:', 'values'=>array('plain', 'html', 'bbcode', 'htmlpurify'), 'selected'=>$content['filter'], 'class' => 'drop')))
          ->AddElement(new CFormElementSubmit($save, array('callback'=>array($this, 'DoSave'), 'class' => 'button')));//, 'callback-args'=>array($this->content))));
 
@@ -39,11 +39,11 @@ class CFormContent extends CForm {
   public function DoSave($form, $content=null) {
     $content['id']    		= $form['id']['value'];
     $content['title'] 		= $form['title']['value'];
-    $content['subtitle']   	= $form['subtitle']['value'];
+    $content['short']   	= $form['short']['value'];
     $content['type']  		= $form['type']['value'];
     $content['content']  	= $form['content']['value'];
     $content['image'] 		= $form['image']['value'];
-    $content['video'] 		= $form['video']['value'];
+    $content['img'] 		= $form['img']['value'];
     $content['filter']		= $form['filter']['value'];
     
     return $this->content->Save($content);
@@ -51,3 +51,5 @@ class CFormContent extends CForm {
   
   
 }
+
+/**' Läger hit en fetekommetar */

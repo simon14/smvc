@@ -24,6 +24,10 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule {
           $this->db->ExecuteQuery(self::SQL('insert content'), array('Download', '', 'page', "This is a demo page, this could be your personal download-page.\n\nYou can download your own copy of lydia from https://github.com/mosbth/lydia.",  2, '', '', 'plain', date('c')));
           $this->db->ExecuteQuery(self::SQL('insert content'), array('Page with BBCode', '', 'page', "This is a demo page with some BBCode-formatting.\n\n[b]Text in bold[/b] and [i]text in italic[/i] and [url=http://dbwebb.se]a link to dbwebb.se[/url]. You can also include images using bbcode, such as the lydia logo: [img]http://dbwebb.se/lydia/current/themes/core/logo_80x80.png[/img]",  3, '', '', 'bbcode', date('c')));
           $this->db->ExecuteQuery(self::SQL('insert content'), array('Page with HTMLPurifier', '', 'page', "This is a demo page with some HTML code intended to run through <a href='http://htmlpurifier.org/'>HTMLPurify</a>. Edit the source and insert HTML code and see if it works.\n\n<b>Text in bold</b> and <i>text in italic</i> and <a href='http://dbwebb.se'>a link to dbwebb.se</a>. JavaScript, like this: <javascript>alert('hej');</javascript> should however be removed.",  3, '', '', 'htmlpurify', date('c')));
+          $this->db->ExecuteQuery(self::SQL('insert content'), array('The New News!', 'Here is some news!!', 'news', "This is a testite for a new thing!",  4, '', '', 'bbcode', date('c')));
+          $this->db->ExecuteQuery(self::SQL('insert content'), array('The Old News!', 'Here is some news! But they are pretty old.', 'news', "Well, there was once a old new, but then it becase new old. Anyway, should be a picture around aswell!",  4, '', '', 'bbcode', date('c')));
+          $this->db->ExecuteQuery(self::SQL('insert content'), array('The Popular News!', 'Here is some news! But they could be happy.', 'news', "What a big cat here is. We could never have guessed that right? Well, not to be sad but this guy doesnt look really right.",  4, '', '', 'bbcode', date('c')));
+          
           return array('success', 'Successfully created the database tables and created a default "Hello World" blog post, owned by you.');
         } catch(Exception$e) {
           die("$e<br/>Failed to open database: " . $this->config['database'][0]['dsn']);
@@ -92,6 +96,34 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule {
   		$this->session->AddMessage('error', 'You are not logged in');
   	}
   }
+  
+  /**
+   * Restores content.
+   */
+  public function Restore() {
+  	
+  	if($this->user->IsAuthenticated() && $this->data['id']!=null){
+  		
+  		if($this->user->IsAdministrator()) {
+  		
+	  		$this->db->ExecuteQuery(self::SQL('restore content'), array($this->data['id']));
+  			$this->session->AddMessage('notice', 'Post restored');
+  		} else {
+  			$this->session->AddMessage('error', 'You cannot restore a post unless your an administrator.');
+  		}
+  	}
+  }
+  
+  public function Like() {
+  	
+  	if(empty($_SESSION['voted']["{$this->data['id']}"])) {
+  		$this->db->ExecuteQuery(self::SQL('like'), array($this->data['id']));
+	  	$_SESSION['voted']["{$this->data['id']}"]=true;
+  	} else {
+  		$this->session->AddMessage('error', 'Already liked this post');
+  	}
+  	
+  }
 
   /**
    * Implementing interface IHasSQL. Encapsulate all SQL used by this class.
@@ -101,22 +133,55 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule {
   public static function SQL($key=null) {
     $queries = array(
       'drop table content'		=> "truncate table Content; drop table Content",
-      'create table content'	=> "CREATE TABLE `Content` (  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,  `title` varchar(40) DEFAULT NULL,  `subtitle` varchar(40) DEFAULT NULL,  `type` varchar(40) DEFAULT NULL,  `content` text,  `idUser` int(11) DEFAULT NULL,  `image` text,  `video` text,  `filter` varchar(10) DEFAULT NULL,  `created` datetime DEFAULT NULL,  `updated` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,  `deleted` datetime DEFAULT NULL,  PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;",
-      'insert content'          => "INSERT INTO `Content` (`title`, `subtitle`, `type`, `content`, `idUser`, `image`, `video`, `filter`, `created`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",
+      'create table content'	=> "CREATE TABLE `Content` (  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,  `title` varchar(40) DEFAULT NULL,  `short` varchar(150) DEFAULT NULL,  rating int(11) DEFAULT '0', `type` varchar(40) DEFAULT NULL,  `content` text,  `idUser` int(11) DEFAULT NULL,  `image` text,  `img` text,  `filter` varchar(10) DEFAULT NULL,  `created` datetime DEFAULT NULL,  `updated` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,  `deleted` datetime DEFAULT NULL,  PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;",
+      'insert content'          => "INSERT INTO `Content` (`title`, `short`, `type`, `content`, `idUser`, `image`, `img`, `filter`, `created`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",
       'select * by id'          => 'SELECT c.*, u.akronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id WHERE c.id=?;',
       'select * by key'         => 'SELECT c.*, u.akronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id WHERE c.key=%s;',
       'select *'         		=> 'SELECT c.*, u.akronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id;',
       'select-all-desc'         => "SELECT c.*, u.akronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id ORDER BY c.id DESC;",
       'select-all-asc'          => "SELECT c.*, u.akronym as owner FROM Content AS c INNER JOIN User as u ON c.idUser=u.id ORDER BY c.id ASC;",
-      'update content'          => "UPDATE Content SET title=?, subtitle=?, type=?, content=?, image=?, video=?, filter=? WHERE id=?;",
+      'update content'          => "UPDATE Content SET title=?, short=?, type=?, content=?, image=?, img=?, filter=? WHERE id=?;",
       'delete content'			=> "UPDATE Content SET deleted = ? WHERE id = ?;",
-
+      'restore content'			=> "UPDATE Content SET deleted = NULL WHERE id = ?;",
+      'like'					=> "UPDATE Content SET rating = rating+1 WHERE id = ?;",
+      'select next news'		=> "select * from Content where id<? and type='news' order by id desc;",
+      'select back news' 		=> "select * from Content where id>? and type='news' order by id asc;",
      );
     if(!isset($queries[$key])) {
       throw new Exception("No such SQL query, key '$key' was not found.");
     }
     return $queries[$key];
   }  
+
+  /**
+   * Go next new. Automaticlly get next 'news', created for the browsing buttons in page-view.
+   *
+   * @returns array with next new, else null.
+   */
+  public function GoNextNews() {
+  	
+  	$res=$this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select next news'), array($this['id']));
+  	
+  	$res = isset($res[0]) ? $res[0] : null;
+  	
+  	return $res;
+  	
+  } 
+   
+   
+  /**
+   * Go back new. Automaticlly get next 'news', created for the browsing buttons in page-view.
+   *
+   * @returns array with earlier new, else null.
+   */
+  public function GoBackNews() {
+  
+  	$res=$this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select back news'), array($this['id']));
+  	
+  	$res = isset($res[0]) ? $res[0] : null;
+  	
+  	return $res;
+  }
 
   /**
    * Save content. If it has a id, use it to update current entry or else insert new entry.
@@ -128,11 +193,11 @@ class CMContent extends CObject implements IHasSQL, ArrayAccess, IModule {
     if($this['id']) {
       //echo sprintf(self::SQL('update content'), $content['title'], $content['subtitle'], $content['type'], $content['content'], $content['image'], $content['video']);
       //echo $this['id'];
-      $this->db->ExecuteQuery(self::SQL('update content'), array($content['title'], $content['subtitle'], $content['type'], $content['content'], $content['image'], $content['video'], $content['filter'], $this['id']));
+      $this->db->ExecuteQuery(self::SQL('update content'), array($content['title'], $content['short'], $content['type'], $content['content'], $content['image'], $content['img'], $content['filter'], $this['id']));
       $msg = 'update';
     } else {
       //echo sprintf(self::SQL('insert content'), $content['title'], $content['subtitle'], $content['type'], $content['content'], $this->user['id'], $content['image'], $content['video'], date('c'));
-      $this->db->ExecuteQuery(self::SQL('insert content'), array($content['title'], $content['subtitle'], $content['type'], $content['content'], $this->user['id'], $content['image'], $content['video'], $content['filter'], date('c')));
+      $this->db->ExecuteQuery(self::SQL('insert content'), array($content['title'], $content['short'], $content['type'], $content['content'], $this->user['id'], $content['image'], $content['img'], $content['filter'], date('c')));
       $this['id'] = $this->db->LastInsertId();
       $msg = 'created';
     }

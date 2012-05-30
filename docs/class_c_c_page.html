@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<title>SMVC: CCPage Class Reference</title>
+<title>smvc: CCPage Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,8 +28,8 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="new-logo.png"/></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">SMVC
-   &#160;<span id="projectnumber">1.0</span>
+   <div id="projectname">smvc
+   &#160;<span id="projectnumber">0.0.6</span>
    </div>
   </td>
  </tr>
@@ -126,10 +126,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a095c5d389db211932136b53f25f39685"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c_page.html#a095c5d389db211932136b53f25f39685">__construct</a> ()</td></tr>
 <tr class="memitem:ac36db983080e1b0934908febca5de2d9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c_page.html#ac36db983080e1b0934908febca5de2d9">Index</a> ()</td></tr>
 <tr class="memitem:abc455bdf830fd26785076cdceef5bb3f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c_page.html#abc455bdf830fd26785076cdceef5bb3f">View</a> ($id=null)</td></tr>
+<tr class="memitem:ad8339523ddab194b00b2bcc0f7ad9ef8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c_page.html#ad8339523ddab194b00b2bcc0f7ad9ef8">Restore</a> ($id=null)</td></tr>
+<tr class="memitem:a1c567c847d1900da243f11e13f2cf858"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c_page.html#a1c567c847d1900da243f11e13f2cf858">Like</a> ($id=null)</td></tr>
 <tr class="memitem:a9c779af0377bd7475cd43b5634c7d7c0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9c779af0377bd7475cd43b5634c7d7c0"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Delete</b> ($id=null, $where=null)</td></tr>
 <tr class="memitem:a9fc9a7b6e15ae7efa5b2a90b450bd3be"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9fc9a7b6e15ae7efa5b2a90b450bd3be"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>RedirectToController</b> ($where)</td></tr>
+<tr class="memitem:a01e61d7f6a7160161311381ab852877d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a01e61d7f6a7160161311381ab852877d"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>handler</b> ($id=null)</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -182,6 +186,52 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a1c567c847d1900da243f11e13f2cf858"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Like </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$id</em> = <code>null</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Like a page.</p>
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">$id</td><td>integer the id of the page. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ad8339523ddab194b00b2bcc0f7ad9ef8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Restore </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$id</em> = <code>null</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Restore deleted a page.</p>
+<dl class="params"><dt>Parameters:</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">$id</td><td>integer the id of the page. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="abc455bdf830fd26785076cdceef5bb3f"></a>
 <div class="memitem">
 <div class="memproto">
@@ -214,7 +264,7 @@ Additional Inherited Members</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_c_c_page.html">CCPage</a></li>
-    <li class="footer">Generated on Mon May 28 2012 15:16:43 for SMVC by
+    <li class="footer">Generated on Wed May 30 2012 22:19:18 for smvc by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.1 </li>
   </ul>
